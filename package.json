@@ -5,7 +5,8 @@
   "private": false,
 	"scripts": {
 		"build": "tsc",
-    "prepublishOnly": "tsc"
+    "clean": "rm -rf **/*.js **/*.map **/*.d.ts",
+    "prepublishOnly": "pnpm run clean && pnpm run build"
 	},
   "type": "module",
   "main": "index.js",
