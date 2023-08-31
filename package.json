@@ -1,7 +1,14 @@
 {
-  "name": "did-utils",
-  "license": "MIT",
+	"name": "did-utils",
+	"license": "MIT",
 	"devDependencies": {
-		"esbuild": "^0.19.2"
+		"esbuild": "^0.19.2",
+		"viem": "^1.9.3"
+	},
+	"peerDependencies": {
+		"viem": "^1.9.3"
+	},
+	"dependencies": {
+		"bs58": "^5.0.0"
 	}
 }

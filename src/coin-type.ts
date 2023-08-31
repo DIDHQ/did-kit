@@ -1,6 +1,6 @@
 export enum CoinType {
   PassKey = -1,
-  Ethereum = 60,
+  EVM = 60,
   Tron = 195,
 }
 
@@ -9,7 +9,7 @@ export function guessCoinType(address: string): CoinType | null {
     return CoinType.PassKey;
   }
   if (/^0x[a-zA-Z0-9]{40}$/.test(address)) {
-    return CoinType.Ethereum;
+    return CoinType.EVM;
   }
   if (
     /^T[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{33}$/.test(
