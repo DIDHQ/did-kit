@@ -21,5 +21,5 @@ async function getBase58CheckAddress(address: string) {
     addressBytes,
     hash1.slice(0, 4),
   ]).arrayBuffer();
-  return bs58.encode(new Uint8Array(arrayBuffer));
+  return `T${bs58.encode(new Uint8Array(arrayBuffer))}`;
 }
