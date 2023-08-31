@@ -1,6 +1,9 @@
 import { concat, keccak256, recoverAddress, toBytes } from "viem";
 import bs58 from "bs58";
 
+/**
+ * @see https://github.com/tronprotocol/tronweb/blob/master/src/utils/message.js
+ */
 export async function verifyTronMessage(
   address: string,
   message: string,

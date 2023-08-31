@@ -1,5 +1,6 @@
 import { CoinType, guessCoinType } from "./coin-type";
 import { verifyEvmMessage } from "./verify-message/evm";
+import { verifyPasskeyMessage } from "./verify-message/passkey";
 import { verifyTronMessage } from "./verify-message/tron";
 
 export async function verifyMessage(
@@ -10,7 +11,7 @@ export async function verifyMessage(
   const coinType = guessCoinType(address);
   switch (coinType) {
     case CoinType.PassKey: {
-      return false;
+      return verifyPasskeyMessage(address, message, signature);
     }
     case CoinType.EVM: {
       return verifyEvmMessage(address, message, signature);
