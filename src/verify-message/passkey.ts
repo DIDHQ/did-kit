@@ -13,31 +13,22 @@ export async function verifyPasskeyMessage(
     `${endpoint}/v1/webauthn/authorize-info`,
     { ckb_address: address }
   );
-  if (info.ckb_address.length === 0) {
-    const { is_valid } = await rpcCall<{ is_valid: boolean }>(
-      `${endpoint}/v1/webauthn/verify`,
-      {
-        master_addr: address,
-        msg: message,
-        signature: signature.replace(/^0x/, ""),
-      }
-    );
-    return is_valid;
-  }
   return (
     await Promise.all(
-      info.ckb_address.map(async (backup_addr) => {
-        const { is_valid } = await rpcCall<{ is_valid: boolean }>(
-          `${endpoint}/v1/webauthn/verify`,
-          {
-            master_addr: address,
-            backup_addr,
-            msg: message,
-            signature: signature.replace(/^0x/, ""),
-          }
-        );
-        return is_valid;
-      })
+      (info.ckb_address.length ? info.ckb_address : [address]).map(
+        async (backup_addr) => {
+          const { is_valid } = await rpcCall<{ is_valid: boolean }>(
+            `${endpoint}/v1/webauthn/verify`,
+            {
+              master_addr: address,
+              backup_addr,
+              msg: message,
+              signature: signature.replace(/^0x/, ""),
+            }
+          );
+          return is_valid;
+        }
+      )
     )
   ).some((is_valid) => is_valid);
 }
