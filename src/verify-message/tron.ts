@@ -1,4 +1,4 @@
-import { hashMessage, recoverAddress } from "viem";
+import { concat, keccak256, recoverAddress, toBytes } from "viem";
 import bs58 from "bs58";
 
 export async function verifyTronMessage(
@@ -7,10 +7,22 @@ export async function verifyTronMessage(
   signature: `0x${string}`
 ) {
   const recovered = await recoverAddress({
-    hash: hashMessage(message),
+    hash: hashMessage(toBytes(message)),
     signature,
   });
   return (await getBase58CheckAddress(recovered)) === address;
+}
+
+const TRON_MESSAGE_PREFIX = "\x19TRON Signed Message:\n";
+
+function hashMessage(message: Uint8Array) {
+  return keccak256(
+    concat([
+      toBytes(TRON_MESSAGE_PREFIX),
+      toBytes(String(message.length)),
+      message,
+    ])
+  );
 }
 
 async function getBase58CheckAddress(address: string) {
@@ -21,5 +33,5 @@ async function getBase58CheckAddress(address: string) {
     addressBytes,
     hash1.slice(0, 4),
   ]).arrayBuffer();
-  return `T${bs58.encode(new Uint8Array(arrayBuffer))}`;
+  return bs58.encode(new Uint8Array(arrayBuffer));
 }
