@@ -1,13 +1,10 @@
 export enum CoinType {
-  PassKey = -1,
   EVM = 60,
   Tron = 195,
+  Nervos = 309,
 }
 
 export function guessCoinType(address: string): CoinType | null {
-  if (/^ck[bt]1[qpzry9x8gf2tvdw0s3jn54khce6mua7l]{42,}$/i.test(address)) {
-    return CoinType.PassKey;
-  }
   if (/^0x[a-zA-Z0-9]{40}$/.test(address)) {
     return CoinType.EVM;
   }
@@ -17,6 +14,9 @@ export function guessCoinType(address: string): CoinType | null {
     )
   ) {
     return CoinType.Tron;
+  }
+  if (/^ck[bt]1[qpzry9x8gf2tvdw0s3jn54khce6mua7l]{42,}$/i.test(address)) {
+    return CoinType.Nervos;
   }
   return null;
 }

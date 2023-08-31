@@ -1,7 +1,7 @@
 /**
  * @see https://github.com/dotbitHQ/das-multi-device/blob/main/API.md
  */
-export async function verifyPasskeyMessage(
+export async function verifyNervosMessage(
   address: string,
   message: string,
   signature: `0x${string}`
