@@ -1,14 +1,21 @@
 {
-	"name": "did-utils",
+	"name": "@didhq/did-utils",
+  "version": "0.0.1",
 	"license": "MIT",
+	"scripts": {
+		"build": "tsc"
+	},
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+	"dependencies": {
+		"bs58": "^5.0.0"
+	},
 	"devDependencies": {
-		"esbuild": "^0.19.2",
+		"typescript": "^5.2.2",
 		"viem": "^1.9.3"
 	},
 	"peerDependencies": {
 		"viem": "^1.9.3"
-	},
-	"dependencies": {
-		"bs58": "^5.0.0"
 	}
 }

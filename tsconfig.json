@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
+    "target": "ES5",
     "lib": ["DOM", "ES2015"],
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "dist"
   }
 }
