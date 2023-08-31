@@ -10,7 +10,7 @@ export async function verifyMessage(
 ): Promise<boolean> {
   const coinType = guessCoinType(address);
   switch (coinType) {
-    case CoinType.EVM: {
+    case CoinType.Ethereum: {
       return verifyEvmMessage(address, message, signature);
     }
     case CoinType.Nervos: {
