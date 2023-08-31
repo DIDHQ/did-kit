@@ -1,0 +1,26 @@
+{
+	"name": "@didhq/did-utils",
+  "version": "0.0.4",
+	"license": "MIT",
+  "private": false,
+	"scripts": {
+		"build": "tsc",
+    "prepublishOnly": "tsc"
+	},
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+	"dependencies": {
+		"bs58": "^5.0.0"
+	},
+	"devDependencies": {
+		"typescript": "^5.2.2",
+		"viem": "^1.9.3"
+	},
+	"peerDependencies": {
+		"viem": "^1.9.3"
+	},
+  "publishConfig": {
+    "access": "public"
+  }
+}
