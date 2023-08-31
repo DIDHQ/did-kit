@@ -5,7 +5,7 @@ export enum CoinType {
 }
 
 export function guessCoinType(address: string): CoinType | null {
-  if (/^0x[a-zA-Z0-9]{40}$/.test(address)) {
+  if (/^0x[a-fA-F0-9]{40}$/.test(address)) {
     return CoinType.Ethereum;
   }
   if (
