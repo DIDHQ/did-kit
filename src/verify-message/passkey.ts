@@ -6,13 +6,16 @@ export async function verifyPasskeyMessage(
   message: string,
   signature: `0x${string}`
 ) {
+  const endpoint = address.startsWith("ckb1")
+    ? "https://webauthn-api.did.id"
+    : "https://test-webauthn-api.did.id";
   const info = await rpcCall<{ ckb_address: string[] }>(
-    "https://webauthn-api.did.id/v1/webauthn/authorize-info",
+    `${endpoint}/v1/webauthn/authorize-info`,
     { ckb_address: address }
   );
   if (info.ckb_address.length === 0) {
     const { is_valid } = await rpcCall<{ is_valid: boolean }>(
-      "https://webauthn-api.did.id/v1/webauthn/verify",
+      `${endpoint}/v1/webauthn/verify`,
       {
         master_addr: address,
         msg: message,
@@ -25,7 +28,7 @@ export async function verifyPasskeyMessage(
     await Promise.all(
       info.ckb_address.map(async (backup_addr) => {
         const { is_valid } = await rpcCall<{ is_valid: boolean }>(
-          "https://webauthn-api.did.id/v1/webauthn/verify",
+          `${endpoint}/v1/webauthn/verify`,
           {
             master_addr: address,
             backup_addr,
