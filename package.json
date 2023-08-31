@@ -1,0 +1,7 @@
+{
+  "name": "did-utils",
+  "license": "MIT",
+	"devDependencies": {
+		"esbuild": "^0.19.2"
+	}
+}
