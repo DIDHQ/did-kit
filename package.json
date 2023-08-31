@@ -2,6 +2,7 @@
 	"name": "@didhq/did-utils",
   "version": "0.0.1",
 	"license": "MIT",
+  "private": false,
 	"scripts": {
 		"build": "tsc"
 	},
@@ -17,5 +18,8 @@
 	},
 	"peerDependencies": {
 		"viem": "^1.9.3"
-	}
+	},
+  "publishConfig": {
+    "access": "public"
+  }
 }
