@@ -1,10 +1,11 @@
 {
 	"name": "@didhq/did-utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
 	"license": "MIT",
   "private": false,
 	"scripts": {
-		"build": "tsc"
+		"build": "tsc",
+    "prepublishOnly": "tsc"
 	},
   "type": "module",
   "main": "./dist/index.js",
