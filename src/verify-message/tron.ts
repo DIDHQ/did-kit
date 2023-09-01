@@ -1,4 +1,4 @@
-import { concat, keccak256, recoverAddress, toBytes } from "viem";
+import { Hex, concat, keccak256, recoverAddress, toBytes } from "viem";
 import bs58 from "bs58";
 
 /**
@@ -7,7 +7,7 @@ import bs58 from "bs58";
 export async function verifyTronMessage(
   address: string,
   message: string,
-  signature: `0x${string}`
+  signature: Hex
 ) {
   const recovered = await recoverAddress({
     hash: hashMessage(toBytes(message)),

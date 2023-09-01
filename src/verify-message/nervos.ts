@@ -1,10 +1,12 @@
+import type { Hex } from "viem";
+
 /**
  * @see https://github.com/dotbitHQ/das-multi-device/blob/main/API.md
  */
 export async function verifyNervosMessage(
   address: string,
   message: string,
-  signature: `0x${string}`
+  signature: Hex
 ) {
   const endpoint = address.startsWith("ckb1")
     ? "https://webauthn-api.did.id"
@@ -15,20 +17,18 @@ export async function verifyNervosMessage(
   );
   return (
     await Promise.all(
-      (info.ckb_address.length ? info.ckb_address : [address]).map(
-        async (backup_addr) => {
-          const { is_valid } = await rpcCall<{ is_valid: boolean }>(
-            `${endpoint}/v1/webauthn/verify`,
-            {
-              master_addr: address,
-              backup_addr,
-              msg: message,
-              signature: signature.replace(/^0x/, ""),
-            }
-          );
-          return is_valid;
-        }
-      )
+      [address, ...info.ckb_address].map(async (backup_addr) => {
+        const { is_valid } = await rpcCall<{ is_valid: boolean }>(
+          `${endpoint}/v1/webauthn/verify`,
+          {
+            master_addr: address,
+            backup_addr,
+            msg: message,
+            signature: signature.replace(/^0x/, ""),
+          }
+        );
+        return is_valid;
+      })
     )
   ).some((is_valid) => is_valid);
 }

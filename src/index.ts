@@ -1,3 +1,4 @@
+import type { Hex } from "viem";
 import { CoinType, guessCoinType } from "./coin-type";
 import { verifyEvmMessage } from "./verify-message/evm";
 import { verifyNervosMessage } from "./verify-message/nervos";
@@ -6,7 +7,7 @@ import { verifyTronMessage } from "./verify-message/tron";
 export async function verifyMessage(
   address: string,
   message: string,
-  signature: `0x${string}`
+  signature: Hex
 ): Promise<boolean> {
   const coinType = guessCoinType(address);
   switch (coinType) {
