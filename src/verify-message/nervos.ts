@@ -18,16 +18,21 @@ export async function verifyNervosMessage(
   return (
     await Promise.all(
       [address, ...info.ckb_address].map(async (backup_addr) => {
-        const { is_valid } = await rpcCall<{ is_valid: boolean }>(
-          `${endpoint}/v1/webauthn/verify`,
-          {
-            master_addr: address,
-            backup_addr,
-            msg: message,
-            signature: signature.replace(/^0x/, ""),
-          }
-        );
-        return is_valid;
+        try {
+          const { is_valid } = await rpcCall<{ is_valid: boolean }>(
+            `${endpoint}/v1/webauthn/verify`,
+            {
+              master_addr: address,
+              backup_addr,
+              msg: message,
+              signature: signature.replace(/^0x/, ""),
+            }
+          );
+          return is_valid;
+        } catch (err) {
+          console.error(err);
+          return false;
+        }
       })
     )
   ).some((is_valid) => is_valid);
