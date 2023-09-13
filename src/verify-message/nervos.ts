@@ -17,13 +17,13 @@ export async function verifyNervosMessage(
   );
   return (
     await Promise.all(
-      [address, ...info.ckb_address].map(async (master_addr) => {
+      [address, ...info.ckb_address].map(async (backup_addr) => {
         try {
           const { is_valid } = await rpcCall<{ is_valid: boolean }>(
             `${endpoint}/v1/webauthn/verify`,
             {
-              master_addr,
-              backup_addr: address,
+              master_addr: address,
+              backup_addr,
               msg: message,
               signature: signature.replace(/^0x/, ""),
             }
