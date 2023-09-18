@@ -1,6 +1,6 @@
 {
   "name": "@didhq/did-utils",
-  "version": "0.0.12-alpha.1",
+  "version": "0.0.12-alpha.2",
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -13,8 +13,8 @@
   "main": "index.js",
   "types": "index.d.ts",
   "dependencies": {
+    "@rvagg/ripemd160": "^2.2.4",
     "bs58": "^5.0.0",
-    "create-hash": "^1.2.0",
     "elliptic": "^6.5.4"
   },
   "devDependencies": {

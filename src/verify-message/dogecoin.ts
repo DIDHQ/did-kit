@@ -1,6 +1,6 @@
 import bs58 from 'bs58'
-import createHash from 'create-hash/browser'
 import { ec as EC } from 'elliptic'
+import RIPEMD160 from '@rvagg/ripemd160'
 
 const ec = new EC('secp256k1')
 
@@ -12,16 +12,16 @@ export async function verifyDogecoinMessage(
   return verify(message, address, signature, '\x19Dogecoin Signed Message:\n')
 }
 
-function sha256(b: Buffer): Buffer {
-  return createHash('sha256').update(b).digest()
+async function sha256(b: ArrayBuffer) {
+  return crypto.subtle.digest('SHA-256', b)
 }
 
-function hash256(buffer: Buffer): Buffer {
-  return sha256(sha256(buffer))
+async function hash256(buffer: ArrayBuffer) {
+  return sha256(await sha256(buffer))
 }
 
-function hash160(buffer: Buffer): Buffer {
-  return createHash('ripemd160').update(sha256(buffer)).digest()
+async function hash160(buffer: ArrayBuffer) {
+  return new RIPEMD160().update(new Uint8Array(await sha256(buffer))).digest()
 }
 
 function decodeSignature(buffer: Buffer) {
@@ -39,7 +39,10 @@ function decodeSignature(buffer: Buffer) {
   }
 }
 
-function magicHash(message: string | Buffer, messagePrefix: string | Buffer) {
+async function magicHash(
+  message: string | Buffer,
+  messagePrefix: string | Buffer,
+) {
   messagePrefix = messagePrefix
   if (!Buffer.isBuffer(messagePrefix)) {
     messagePrefix = Buffer.from(messagePrefix, 'utf8')
@@ -57,7 +60,7 @@ function magicHash(message: string | Buffer, messagePrefix: string | Buffer) {
   return hash256(buffer)
 }
 
-function verify(
+async function verify(
   message: string,
   address: string,
   signature: string | Buffer,
@@ -67,14 +70,18 @@ function verify(
 
   const parsed = decodeSignature(signature)
 
-  const hash = magicHash(message, messagePrefix)
-  const publicKey = ec.recoverPubKey(hash, parsed.signature, parsed.recovery)
-  const publicKeyHash = hash160(publicKey)
+  const hash = await magicHash(message, messagePrefix)
+  const publicKey = ec.recoverPubKey(
+    Buffer.from(hash),
+    parsed.signature,
+    parsed.recovery,
+  )
+  const publicKeyHash = await hash160(publicKey)
 
   const actual = publicKeyHash
   const expected = bs58.decode(address).slice(1)
 
-  return actual.equals(expected)
+  return Buffer.from(actual).equals(expected)
 }
 
 function checkUInt53(n: number) {
