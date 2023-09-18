@@ -10,8 +10,8 @@ export async function verifyDogecoinMessage(
   return verify(message, address, signature, '\x19Dogecoin Signed Message:\n')
 }
 
-async function sha256(b: ArrayBuffer) {
-  return crypto.subtle.digest('SHA-256', b)
+async function sha256(buffer: ArrayBuffer) {
+  return crypto.subtle.digest('SHA-256', buffer)
 }
 
 async function hash256(buffer: ArrayBuffer) {
