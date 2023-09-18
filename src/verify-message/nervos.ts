@@ -1,4 +1,4 @@
-import type { Hex } from "viem";
+import type { Hex } from 'viem'
 
 /**
  * @see https://github.com/dotbitHQ/das-multi-device/blob/main/API.md
@@ -6,15 +6,15 @@ import type { Hex } from "viem";
 export async function verifyNervosMessage(
   address: string,
   message: string,
-  signature: Hex
+  signature: Hex,
 ): Promise<boolean> {
-  const endpoint = address.startsWith("ckb1")
-    ? "https://webauthn-api.did.id"
-    : "https://test-webauthn-api.did.id";
+  const endpoint = address.startsWith('ckb1')
+    ? 'https://webauthn-api.did.id'
+    : 'https://test-webauthn-api.did.id'
   const info = await rpcCall<{ ckb_address: { address: string }[] }>(
     `${endpoint}/v1/webauthn/authorize-info`,
-    { ckb_address: address }
-  );
+    { ckb_address: address },
+  )
   return (
     await Promise.all(
       [{ address }, ...info.ckb_address].map(
@@ -26,36 +26,36 @@ export async function verifyNervosMessage(
                 master_addr: address,
                 backup_addr,
                 msg: message,
-                signature: signature.replace(/^0x/, ""),
-              }
-            );
-            return is_valid;
+                signature: signature.replace(/^0x/, ''),
+              },
+            )
+            return is_valid
           } catch (err) {
-            console.error(err);
-            return false;
+            console.error(err)
+            return false
           }
-        }
-      )
+        },
+      ),
     )
-  ).some((is_valid) => is_valid);
+  ).some((is_valid) => is_valid)
 }
 
 async function rpcCall<T>(url: string, json: unknown): Promise<T> {
   const response = await fetch(url, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
     body: JSON.stringify(json),
-  });
+  })
   if (response.ok) {
     const json = (await response.json()) as {
-      err_no: number;
-      err_msg: string;
-      data: T;
-    };
-    if (json.err_no !== 0) {
-      throw new Error(json.err_msg);
+      err_no: number
+      err_msg: string
+      data: T
     }
-    return json.data;
+    if (json.err_no !== 0) {
+      throw new Error(json.err_msg)
+    }
+    return json.data
   }
-  throw new Error(response.statusText);
+  throw new Error(response.statusText)
 }
