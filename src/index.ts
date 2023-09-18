@@ -1,5 +1,6 @@
 import type { Hex } from "viem";
 import { CoinType, guessCoinType } from "./coin-type";
+import { verifyDogecoinMessage } from "./verify-message/dogecoin";
 import { verifyEvmMessage } from "./verify-message/evm";
 import { verifyNervosMessage } from "./verify-message/nervos";
 import { verifyTronMessage } from "./verify-message/tron";
@@ -11,6 +12,9 @@ export async function verifyMessage(
 ): Promise<boolean> {
   const coinType = guessCoinType(address);
   switch (coinType) {
+    case CoinType.Dogecoin: {
+      return verifyDogecoinMessage(address, message, signature);
+    }
     case CoinType.Ethereum: {
       return verifyEvmMessage(address, message, signature);
     }

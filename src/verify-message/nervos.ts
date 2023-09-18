@@ -7,7 +7,7 @@ export async function verifyNervosMessage(
   address: string,
   message: string,
   signature: Hex
-) {
+): Promise<boolean> {
   const endpoint = address.startsWith("ckb1")
     ? "https://webauthn-api.did.id"
     : "https://test-webauthn-api.did.id";

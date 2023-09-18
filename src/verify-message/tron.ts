@@ -8,7 +8,7 @@ export async function verifyTronMessage(
   address: string,
   message: string,
   signature: Hex
-) {
+): Promise<boolean> {
   const recovered = await recoverAddress({
     hash: hashMessage(toBytes(message)),
     signature,
