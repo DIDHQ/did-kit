@@ -1,17 +1,18 @@
 {
 	"name": "@didhq/did-utils",
-  "version": "0.0.11",
+	"version": "0.0.11",
 	"license": "MIT",
-  "private": false,
+	"private": false,
 	"scripts": {
 		"build": "tsc",
-    "clean": "rm -rf **/*.js **/*.map **/*.d.ts",
-    "prepublishOnly": "pnpm run clean && pnpm run build"
+		"clean": "rm -rf **/*.js **/*.map **/*.d.ts",
+		"prepublishOnly": "pnpm run clean && pnpm run build"
 	},
-  "type": "module",
-  "main": "index.js",
-  "types": "index.d.ts",
+	"type": "module",
+	"main": "index.js",
+	"types": "index.d.ts",
 	"dependencies": {
+		"bitcoinjs-message": "^2.2.0",
 		"bs58": "^5.0.0"
 	},
 	"devDependencies": {
@@ -21,7 +22,7 @@
 	"peerDependencies": {
 		"viem": "^1.9.3"
 	},
-  "publishConfig": {
-    "access": "public"
-  }
+	"publishConfig": {
+		"access": "public"
+	}
 }
