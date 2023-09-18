@@ -39,5 +39,5 @@ export async function verifyMessage(
 }
 
 function isBase64(value: string) {
-  return /^[a-zA-Z0-9+/]={0,3}$/.test(value)
+  return /^[a-zA-Z0-9+/]+={0,3}$/.test(value)
 }
