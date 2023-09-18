@@ -1,6 +1,6 @@
 import bs58check from 'bs58check'
+import { Signature } from '@noble/secp256k1'
 import RIPEMD160 from '@rvagg/ripemd160'
-import { recover } from 'tiny-secp256k1'
 
 export async function verifyDogecoinMessage(
   address: string,
@@ -23,7 +23,9 @@ async function hash160(buffer: ArrayBuffer) {
 }
 
 function decodeSignature(buffer: Buffer) {
-  if (buffer.length !== 65) throw new Error('Invalid signature length')
+  if (buffer.length !== 65) {
+    throw new Error('Invalid signature length')
+  }
 
   const flagByte = buffer.readUInt8(0) - 27
   if (flagByte > 15 || flagByte < 0) {
@@ -64,23 +66,25 @@ async function verify(
   signature: string | Buffer,
   messagePrefix: string,
 ) {
-  if (!Buffer.isBuffer(signature)) signature = Buffer.from(signature, 'base64')
+  if (!Buffer.isBuffer(signature)) {
+    signature = Buffer.from(signature, 'base64')
+  }
 
   const parsed = decodeSignature(signature)
 
   const hash = await magicHash(message, messagePrefix)
-  const publicKey = recover(
-    Buffer.from(hash),
-    parsed.signature,
-    parsed.recovery as 0 | 1 | 2 | 3,
-    parsed.compressed,
+  const publicKey = new Signature(
+    BigInt('0x' + parsed.signature.subarray(0, 32).toString('hex')),
+    BigInt('0x' + parsed.signature.subarray(32, 64).toString('hex')),
+    parsed.recovery,
   )
+    .recoverPublicKey(Buffer.from(hash))
+    .toRawBytes(parsed.compressed)
   const publicKeyHash = await hash160(publicKey)
 
   const actual = publicKeyHash
   const expected = bs58check.decode(address).slice(1)
 
-  console.log(actual, expected, address)
   return Buffer.from(actual).equals(expected)
 }
 
@@ -92,10 +96,14 @@ function checkUInt53(n: number) {
 function varUintEncode(number: number, buffer: Buffer, offset: number) {
   checkUInt53(number)
 
-  if (!buffer) buffer = Buffer.allocUnsafe(varUintEncodingLength(number))
+  if (!buffer) {
+    buffer = Buffer.allocUnsafe(varUintEncodingLength(number))
+  }
   if (!Buffer.isBuffer(buffer))
     throw new TypeError('buffer must be a Buffer instance')
-  if (!offset) offset = 0
+  if (!offset) {
+    offset = 0
+  }
 
   // 8 bit
   if (number < 0xfd) {

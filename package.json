@@ -1,6 +1,6 @@
 {
   "name": "@didhq/did-utils",
-  "version": "0.0.12-alpha.3",
+  "version": "0.0.12-alpha.4",
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -13,13 +13,12 @@
   "main": "index.js",
   "types": "index.d.ts",
   "dependencies": {
+    "@noble/secp256k1": "^2.0.0",
     "@rvagg/ripemd160": "^2.2.4",
     "bs58": "^5.0.0",
-    "bs58check": "^3.0.1",
-    "tiny-secp256k1": "^2.2.3"
+    "bs58check": "^3.0.1"
   },
   "devDependencies": {
-    "@types/elliptic": "^6.4.14",
     "prettier": "^3.0.3",
     "typescript": "^5.2.2",
     "viem": "^1.10.14"
