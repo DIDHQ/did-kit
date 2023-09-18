@@ -1,8 +1,6 @@
-import bs58 from 'bs58'
-import { ec as EC } from 'elliptic'
+import bs58check from 'bs58check'
 import RIPEMD160 from '@rvagg/ripemd160'
-
-const ec = new EC('secp256k1')
+import { recover } from 'tiny-secp256k1'
 
 export async function verifyDogecoinMessage(
   address: string,
@@ -71,16 +69,18 @@ async function verify(
   const parsed = decodeSignature(signature)
 
   const hash = await magicHash(message, messagePrefix)
-  const publicKey = ec.recoverPubKey(
+  const publicKey = recover(
     Buffer.from(hash),
     parsed.signature,
-    parsed.recovery,
+    parsed.recovery as 0 | 1 | 2 | 3,
+    parsed.compressed,
   )
   const publicKeyHash = await hash160(publicKey)
 
   const actual = publicKeyHash
-  const expected = bs58.decode(address).slice(1)
+  const expected = bs58check.decode(address).slice(1)
 
+  console.log(actual, expected, address)
   return Buffer.from(actual).equals(expected)
 }
 

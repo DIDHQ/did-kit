@@ -1,6 +1,6 @@
 {
   "name": "@didhq/did-utils",
-  "version": "0.0.12-alpha.2",
+  "version": "0.0.12-alpha.3",
   "license": "MIT",
   "private": false,
   "scripts": {
@@ -15,7 +15,8 @@
   "dependencies": {
     "@rvagg/ripemd160": "^2.2.4",
     "bs58": "^5.0.0",
-    "elliptic": "^6.5.4"
+    "bs58check": "^3.0.1",
+    "tiny-secp256k1": "^2.2.3"
   },
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
