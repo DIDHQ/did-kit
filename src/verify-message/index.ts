@@ -1,5 +1,5 @@
 import { isHex } from 'viem'
-import { guessCoinType, CoinType } from '../coin-type'
+import { guessCoinType, CoinType } from '../address'
 import { isBase64 } from '../utils/base64'
 import { verifyDogecoinMessage } from './dogecoin'
 import { verifyEvmMessage } from './evm'
