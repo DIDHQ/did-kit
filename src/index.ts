@@ -7,8 +7,8 @@ import {
   getRelatedAddresses,
   guessDidSystem,
   normalizeDid,
-} from './did'
-import { verifyMessage } from './verify-message'
+} from './did/index'
+import { verifyMessage } from './verify-message/index'
 
 export {
   // address
