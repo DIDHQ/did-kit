@@ -14,7 +14,11 @@ const abi = parseAbi([
   'function ownerOf(uint256 tokenId) external view returns (address)',
 ])
 
-export async function getEnsManager(did: string): Promise<string | null> {
+const ensNameWrapper = normalizeAddress(
+  '0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401',
+)
+
+export async function getEnsManager(did: string): Promise<string | undefined> {
   try {
     const node = namehash(normalize(did))
     const address = await client.readContract({
@@ -23,14 +27,14 @@ export async function getEnsManager(did: string): Promise<string | null> {
       functionName: 'owner',
       args: [node],
     })
-    return normalizeAddress(address)
+    const manager = normalizeAddress(address)
+    return manager === ensNameWrapper ? getEnsAddress(did) : manager
   } catch (err) {
     console.error('getEnsManager', did, err)
-    return null
   }
 }
 
-export async function getEnsOwner(did: string): Promise<string | null> {
+export async function getEnsOwner(did: string): Promise<string | undefined> {
   try {
     const tokenId = labelhash(normalize(did.replace(/\.eth$/, '')))
     const address = await client.readContract({
@@ -39,27 +43,26 @@ export async function getEnsOwner(did: string): Promise<string | null> {
       functionName: 'ownerOf',
       args: [BigInt(tokenId)],
     })
-    return normalizeAddress(address)
+    const owner = normalizeAddress(address)
+    return owner === ensNameWrapper ? undefined : owner
   } catch (err) {
     console.error('getEnsOwner', did, err)
-    return null
   }
 }
 
-export async function getEnsAddress(did: string): Promise<string | null> {
+export async function getEnsAddress(did: string): Promise<string | undefined> {
   try {
     const address = await client.getEnsAddress({ name: normalize(did) })
-    return address ? normalizeAddress(address) : null
+    return address ? normalizeAddress(address) : undefined
   } catch (err) {
     console.error('getEnsAddress', did, err)
-    return null
   }
 }
 
 /**
  * @see https://thegraph.com/hosted-service/subgraph/ensdomains/ens
  */
-export async function getEnsCreatedAt(did: string): Promise<Date | null> {
+export async function getEnsCreatedAt(did: string): Promise<Date | undefined> {
   const tokenId = labelhash(normalize(did.replace(/\.eth$/, '')))
   try {
     const response = await fetch(
@@ -80,10 +83,9 @@ export async function getEnsCreatedAt(did: string): Promise<Date | null> {
     }
     return json.data.registration
       ? new Date(parseInt(`${json.data.registration.registrationDate}000`))
-      : null
+      : undefined
   } catch (err) {
     console.error('getEnsCreatedAt', did, err)
-    return null
   }
 }
 

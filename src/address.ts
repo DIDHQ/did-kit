@@ -7,7 +7,7 @@ export enum CoinType {
   Nervos = 309,
 }
 
-export function guessCoinType(address: string): CoinType | null {
+export function guessCoinType(address: string): CoinType | undefined {
   if (/^D{1}[5-9A-HJ-NP-U]{1}[1-9A-HJ-NP-Za-km-z]{32}$/.test(address)) {
     return CoinType.Dogecoin
   }
@@ -24,7 +24,6 @@ export function guessCoinType(address: string): CoinType | null {
   if (/^ck[bt]1[qpzry9x8gf2tvdw0s3jn54khce6mua7l]{42,}$/i.test(address)) {
     return CoinType.Nervos
   }
-  return null
 }
 
 export function normalizeAddress(address: string): string {

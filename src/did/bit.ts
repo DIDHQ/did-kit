@@ -2,9 +2,9 @@ import { normalizeAddress } from '../address'
 import { guessCoinType } from '../coin-type'
 
 export async function getBitAccountInfo(did: string): Promise<{
-  manager: string | null
-  owner: string | null
-  createdAt: Date | null
+  manager?: string
+  owner?: string
+  createdAt?: Date
 }> {
   try {
     const response = await fetch('https://indexer-v1.did.id/', {
@@ -19,17 +19,17 @@ export async function getBitAccountInfo(did: string): Promise<{
     })
     const json = (await response.json()) as {
       result: {
-        data: {
+        data?: {
           account_info: {
             manager_key: string
             owner_key: string
             create_at_unix: number
           }
-        } | null
+        }
       }
     }
     if (!json.result.data) {
-      return { manager: null, owner: null, createdAt: null }
+      return {}
     }
     return {
       manager: normalizeAddress(json.result.data.account_info.manager_key),
@@ -38,7 +38,7 @@ export async function getBitAccountInfo(did: string): Promise<{
     }
   } catch (err) {
     console.error('getBitAccountInfo', did, err)
-    return { manager: null, owner: null, createdAt: null }
+    return {}
   }
 }
 

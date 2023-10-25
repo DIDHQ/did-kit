@@ -20,11 +20,7 @@ export enum DidSystem {
   LENS = 'LENS',
 }
 
-const ensNameWrapper = normalizeAddress(
-  '0xD4416b13d2b3a9aBae7AcD5D6C2BbDBE25686401',
-)
-
-export function guessDidSystem(didOrAddress: string): DidSystem | null {
+export function guessDidSystem(didOrAddress: string): DidSystem | undefined {
   if (didOrAddress.endsWith('.eth')) {
     return DidSystem.ENS
   }
@@ -37,7 +33,6 @@ export function guessDidSystem(didOrAddress: string): DidSystem | null {
   ) {
     return DidSystem.BIT
   }
-  return null
 }
 
 export async function getDidsOfAddress(address: string): Promise<string[]> {
@@ -48,7 +43,7 @@ export async function getDidsOfAddress(address: string): Promise<string[]> {
     .sort()
 }
 
-export async function getDidCreatedAt(did: string): Promise<Date | null> {
+export async function getDidCreatedAt(did: string): Promise<Date | undefined> {
   const didSystem = guessDidSystem(did)
   if (didSystem === DidSystem.ENS) {
     return getEnsCreatedAt(did)
@@ -60,7 +55,6 @@ export async function getDidCreatedAt(did: string): Promise<Date | null> {
     const info = await getBitAccountInfo(did)
     return info.createdAt
   }
-  return null
 }
 
 export function normalizeDid(did: string): string {
@@ -76,11 +70,13 @@ export function normalizeDid(did: string): string {
   return did
 }
 
-export async function getManagerAddress(did: string): Promise<string | null> {
+export async function getManagerAddress(
+  did: string,
+): Promise<string | undefined> {
   const didSystem = guessDidSystem(did)
   if (didSystem === DidSystem.ENS) {
     const manager = await getEnsManager(did)
-    return manager === ensNameWrapper ? getEnsAddress(did) : manager
+    return manager
   }
   if (didSystem === DidSystem.LENS) {
     const address = await getEnsAddress(`${did}.xyz`)
@@ -101,9 +97,7 @@ export async function getRelatedAddresses(did: string): Promise<string[]> {
       getEnsOwner(did),
       getEnsAddress(did),
     ])
-    return uniq(compact([manager, owner, address])).filter(
-      (address) => address !== ensNameWrapper,
-    )
+    return uniq(compact([manager, owner, address]))
   }
   if (didSystem === DidSystem.LENS) {
     const address = await getEnsAddress(`${did}.xyz`)
