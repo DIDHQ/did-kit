@@ -1,18 +1,4 @@
 import { normalize } from 'viem/ens'
-import { compact, uniq } from 'remeda'
-import { normalizeAddress } from '../address'
-import {
-  getBitAccountInfo,
-  getBitAccountReverseAddresses,
-  listBitAccounts,
-} from './bit'
-import {
-  getEnsAddress,
-  getEnsCreatedAt,
-  getEnsManager,
-  getEnsOwner,
-  listEnsAccounts,
-} from './ens'
 
 export enum DidSystem {
   BIT = 'BIT',
@@ -20,40 +6,15 @@ export enum DidSystem {
   LENS = 'LENS',
 }
 
-export function guessDidSystem(didOrAddress: string): DidSystem | undefined {
-  if (didOrAddress.endsWith('.eth')) {
+export function guessDidSystem(did: string): DidSystem | undefined {
+  if (did.endsWith('.eth')) {
     return DidSystem.ENS
   }
-  if (didOrAddress.endsWith('.lens')) {
+  if (did.endsWith('.lens')) {
     return DidSystem.LENS
   }
-  if (
-    didOrAddress.endsWith('.bit') ||
-    /^[^\s\.]+\.[^\s\.]+$/.test(didOrAddress)
-  ) {
+  if (did.endsWith('.bit') || /^[^\s\.]+\.[^\s\.]+$/.test(did)) {
     return DidSystem.BIT
-  }
-}
-
-export async function getDidsOfAddress(address: string): Promise<string[]> {
-  return (
-    await Promise.all([listBitAccounts(address), listEnsAccounts(address)])
-  )
-    .flat()
-    .sort()
-}
-
-export async function getDidCreatedAt(did: string): Promise<Date | undefined> {
-  const didSystem = guessDidSystem(did)
-  if (didSystem === DidSystem.ENS) {
-    return getEnsCreatedAt(did)
-  }
-  if (didSystem === DidSystem.LENS) {
-    return getEnsCreatedAt(`${did}.xyz`)
-  }
-  if (didSystem === DidSystem.BIT) {
-    const info = await getBitAccountInfo(did)
-    return info.createdAt
   }
 }
 
@@ -68,45 +29,4 @@ export function normalizeDid(did: string): string {
     return normalize(did)
   }
   return did
-}
-
-export async function getManagerAddress(
-  did: string,
-): Promise<string | undefined> {
-  const didSystem = guessDidSystem(did)
-  if (didSystem === DidSystem.ENS) {
-    const manager = await getEnsManager(did)
-    return manager
-  }
-  if (didSystem === DidSystem.LENS) {
-    const address = await getEnsAddress(`${did}.xyz`)
-    return address
-  }
-  if (didSystem === DidSystem.BIT) {
-    const { manager } = await getBitAccountInfo(did)
-    return manager
-  }
-  return normalizeAddress(did)
-}
-
-export async function getRelatedAddresses(did: string): Promise<string[]> {
-  const didSystem = guessDidSystem(did)
-  if (didSystem === DidSystem.ENS) {
-    const [manager, owner, address] = await Promise.all([
-      getEnsManager(did),
-      getEnsOwner(did),
-      getEnsAddress(did),
-    ])
-    return uniq(compact([manager, owner, address]))
-  }
-  if (didSystem === DidSystem.LENS) {
-    const address = await getEnsAddress(`${did}.xyz`)
-    return compact([address])
-  }
-  if (didSystem === DidSystem.BIT) {
-    const { manager, owner } = await getBitAccountInfo(did)
-    const reverses = await getBitAccountReverseAddresses(did)
-    return uniq(compact([manager, owner, ...reverses]))
-  }
-  return [normalizeAddress(did)]
 }
