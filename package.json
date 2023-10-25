@@ -4,21 +4,22 @@
   "license": "MIT",
   "private": false,
   "type": "module",
-	"files": [
-		"dist"
-	],
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		"import": {
-			"types": "./dist/index.d.ts",
-			"default": "./dist/index.js"
-		}
-	},
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "import": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf **/*.js **/*.map **/*.d.ts",
     "format": "prettier --write .",
+    "test": "tsx tests/index.ts",
     "prepublishOnly": "pnpm run clean && pnpm run build"
   },
   "dependencies": {
@@ -29,7 +30,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.8.8",
+    "manten": "^1.1.0",
     "prettier": "^3.0.3",
+    "tsx": "^3.14.0",
     "typescript": "^5.2.2",
     "viem": "^1.16.6"
   },
