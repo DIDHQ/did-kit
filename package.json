@@ -3,15 +3,24 @@
   "version": "0.0.13",
   "license": "MIT",
   "private": false,
+  "type": "module",
+	"files": [
+		"dist"
+	],
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		"import": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf **/*.js **/*.map **/*.d.ts",
     "format": "prettier --write .",
     "prepublishOnly": "pnpm run clean && pnpm run build"
   },
-  "type": "module",
-  "main": "index.js",
-  "types": "index.d.ts",
   "dependencies": {
     "@noble/secp256k1": "^2.0.0",
     "@rvagg/ripemd160": "^2.2.4",
