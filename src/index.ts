@@ -3,7 +3,7 @@ import { DidSystem, guessDidSystem, normalizeDid } from './did/index'
 import {
   listManagedDids,
   getManagerAddress,
-  getRelatedAddresses,
+  listRelatedAddresses,
 } from './resolve'
 import { getDidCreatedAt } from './timestamp'
 import { verifyMessage } from './verify-message/index'
@@ -25,7 +25,7 @@ export {
   // resolve
   listManagedDids,
   getManagerAddress,
-  getRelatedAddresses,
+  listRelatedAddresses,
 
   // verify message
   verifyMessage,

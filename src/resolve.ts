@@ -39,7 +39,7 @@ export async function getManagerAddress(
   return normalizeAddress(did)
 }
 
-export async function getRelatedAddresses(did: string): Promise<string[]> {
+export async function listRelatedAddresses(did: string): Promise<string[]> {
   const didSystem = guessDidSystem(did)
   if (didSystem === DidSystem.ENS) {
     const [manager, owner, address] = await Promise.all([
