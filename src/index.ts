@@ -1,7 +1,10 @@
 import { CoinType, guessCoinType, normalizeAddress } from './address'
 import { DidSystem, guessDidSystem, normalizeDid } from './did/index'
-import { getDidsOfAddress } from './resolve'
-import { getManagerAddress, getRelatedAddresses } from './reverse-resolve'
+import {
+  listManagedDids,
+  getManagerAddress,
+  getRelatedAddresses,
+} from './resolve'
 import { getDidCreatedAt } from './timestamp'
 import { verifyMessage } from './verify-message/index'
 
@@ -20,9 +23,7 @@ export {
   getDidCreatedAt,
 
   // resolve
-  getDidsOfAddress,
-
-  // reverse resolve
+  listManagedDids,
   getManagerAddress,
   getRelatedAddresses,
 
