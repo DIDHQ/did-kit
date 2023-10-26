@@ -26,8 +26,7 @@
     "@noble/secp256k1": "^2.0.0",
     "@rvagg/ripemd160": "^2.2.4",
     "bs58": "^5.0.0",
-    "bs58check": "^3.0.1",
-    "remeda": "^1.28.0"
+    "bs58check": "^3.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.8.8",

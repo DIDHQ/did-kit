@@ -1,4 +1,3 @@
-import { uniq, compact } from 'remeda'
 import { guessDidSystem, DidSystem } from './did/index'
 import {
   listBitAccounts,
@@ -48,16 +47,16 @@ export async function getRelatedAddresses(did: string): Promise<string[]> {
       getEnsOwner(did),
       getEnsAddress(did),
     ])
-    return uniq(compact([manager, owner, address]))
+    return [...new Set([manager, owner, address])].filter(Boolean)
   }
   if (didSystem === DidSystem.LENS) {
     const address = await getEnsAddress(`${did}.xyz`)
-    return compact([address])
+    return [address].filter(Boolean)
   }
   if (didSystem === DidSystem.BIT) {
     const { manager, owner } = await getBitAccountInfo(did)
     const reverses = await getBitAccountReverseAddresses(did)
-    return uniq(compact([manager, owner, ...reverses]))
+    return [...new Set([manager, owner, ...reverses])].filter(Boolean)
   }
   return [normalizeAddress(did)]
 }
