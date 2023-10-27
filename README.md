@@ -1,1 +1,1 @@
-# did-utils
+# DID Kit

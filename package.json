@@ -1,6 +1,6 @@
 {
-  "name": "@didhq/did-utils",
-  "version": "0.0.18",
+  "name": "@didhq/did-kit",
+  "version": "0.0.1",
   "license": "MIT",
   "private": false,
   "type": "module",
@@ -29,12 +29,12 @@
     "bs58check": "^3.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.8.8",
+    "@types/node": "^20.8.9",
     "manten": "^1.1.0",
     "prettier": "^3.0.3",
     "tsx": "^3.14.0",
     "typescript": "^5.2.2",
-    "viem": "^1.16.6"
+    "viem": "^1.17.2"
   },
   "peerDependencies": {
     "viem": "^1.10.14"
