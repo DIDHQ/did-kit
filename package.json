@@ -1,6 +1,6 @@
 {
   "name": "@didhq/did-kit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "private": false,
   "type": "module",
@@ -19,27 +19,26 @@
     "build": "tsc",
     "clean": "rm -rf dist",
     "format": "prettier --write .",
-    "test": "tsx tests/index.ts",
     "prepublishOnly": "pnpm run clean && pnpm run build"
   },
   "dependencies": {
-    "@noble/secp256k1": "^2.0.0",
+    "@noble/secp256k1": "^2.1.0",
     "@rvagg/ripemd160": "^2.2.4",
     "bs58": "^5.0.0",
     "bs58check": "^3.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.8.9",
-    "manten": "^1.1.0",
-    "prettier": "^3.0.3",
-    "tsx": "^3.14.0",
-    "typescript": "^5.2.2",
-    "viem": "^1.17.2"
+    "@types/node": "^20.12.2",
+    "prettier": "^3.2.5",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.3",
+    "viem": "^2.9.6"
   },
   "peerDependencies": {
-    "viem": "^1.10.14"
+    "viem": "^2.9.6"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "packageManager": "pnpm@8.15.5+sha256.4b4efa12490e5055d59b9b9fc9438b7d581a6b7af3b5675eb5c5f447cee1a589"
 }
