@@ -1,6 +1,6 @@
-import { guessDidSystem, DidSystem } from './did/index'
-import { getBitAccountInfo } from './did/bit'
-import { getEnsCreatedAt } from './did/ens'
+import { guessDidSystem, DidSystem } from './did/index.js'
+import { getBitAccountInfo } from './did/bit.js'
+import { getEnsCreatedAt } from './did/ens.js'
 
 export async function getDidCreatedAt(did: string): Promise<Date | undefined> {
   const didSystem = guessDidSystem(did)

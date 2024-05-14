@@ -1,16 +1,16 @@
-import { guessDidSystem, DidSystem } from './did/index'
+import { guessDidSystem, DidSystem } from './did/index.js'
 import {
   listBitAccounts,
   getBitAccountInfo,
   getBitAccountReverseAddresses,
-} from './did/bit'
+} from './did/bit.js'
 import {
   listEnsAccounts,
   getEnsAddress,
   getEnsManager,
   getEnsOwner,
-} from './did/ens'
-import { normalizeAddress } from './address'
+} from './did/ens.js'
+import { normalizeAddress } from './address.js'
 
 export async function listManagedDids(address: string): Promise<string[]> {
   return (

@@ -1,10 +1,10 @@
 import { isHex } from 'viem'
-import { guessCoinType, CoinType } from '../address'
-import { isBase64 } from '../utils/base64'
-import { verifyDogecoinMessage } from './dogecoin'
-import { verifyEvmMessage } from './evm'
-import { verifyNervosMessage } from './nervos'
-import { verifyTronMessage } from './tron'
+import { guessCoinType, CoinType } from '../address.js'
+import { isBase64 } from '../utils/base64.js'
+import { verifyDogecoinMessage } from './dogecoin.js'
+import { verifyEvmMessage } from './evm.js'
+import { verifyNervosMessage } from './nervos.js'
+import { verifyTronMessage } from './tron.js'
 
 export async function verifyMessage(
   address: string,

@@ -1,7 +1,7 @@
 import { createPublicClient, http, labelhash, namehash, parseAbi } from 'viem'
 import { mainnet as ethereum } from 'viem/chains'
 import { normalize } from 'viem/ens'
-import { normalizeAddress } from '../address'
+import { normalizeAddress } from '../address.js'
 
 const client = createPublicClient({
   chain: ethereum,
