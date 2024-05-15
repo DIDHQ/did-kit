@@ -1,5 +1,5 @@
-import { normalizeAddress } from '../address'
-import { guessCoinType } from '../coin-type'
+import { normalizeAddress } from '../address.js'
+import { guessCoinType } from '../coin-type.js'
 
 export async function getBitAccountInfo(did: string): Promise<{
   manager?: string

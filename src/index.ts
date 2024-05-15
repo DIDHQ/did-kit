@@ -1,12 +1,12 @@
-import { CoinType, guessCoinType, normalizeAddress } from './address'
-import { DidSystem, guessDidSystem, normalizeDid } from './did/index'
+import { CoinType, guessCoinType, normalizeAddress } from './address.js'
+import { DidSystem, guessDidSystem, normalizeDid } from './did/index.js'
 import {
   listManagedDids,
   getManagerAddress,
   listRelatedAddresses,
-} from './resolve'
-import { getDidCreatedAt } from './timestamp'
-import { verifyMessage } from './verify-message/index'
+} from './resolve.js'
+import { getDidCreatedAt } from './timestamp.js'
+import { verifyMessage } from './verify-message/index.js'
 
 export {
   // address
