@@ -1,12 +1,10 @@
 {
   "name": "@didhq/did-kit",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "private": false,
   "type": "module",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -18,7 +16,7 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "format": "prettier --write .",
+    "format": "biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true .",
     "prepublishOnly": "pnpm run clean && pnpm run build"
   },
   "dependencies": {
@@ -28,11 +26,11 @@
     "bs58check": "^3.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.12.2",
-    "prettier": "^3.2.5",
-    "tsx": "^4.7.1",
-    "typescript": "^5.4.3",
-    "viem": "^2.9.6"
+    "@biomejs/biome": "^1.7.3",
+    "@types/node": "^20.12.12",
+    "tsx": "^4.10.2",
+    "typescript": "^5.4.5",
+    "viem": "^2.10.5"
   },
   "peerDependencies": {
     "viem": "^2.9.6"
@@ -40,5 +38,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@8.15.5+sha256.4b4efa12490e5055d59b9b9fc9438b7d581a6b7af3b5675eb5c5f447cee1a589"
+  "packageManager": "pnpm@9.1.1+sha512.14e915759c11f77eac07faba4d019c193ec8637229e62ec99eefb7cf3c3b75c64447882b7c485142451ee3a6b408059cdfb7b7fa0341b975f12d0f7629c71195"
 }

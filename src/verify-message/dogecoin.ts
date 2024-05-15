@@ -1,13 +1,18 @@
-import bs58check from 'bs58check'
 import { Signature } from '@noble/secp256k1'
 import RIPEMD160 from '@rvagg/ripemd160'
+import bs58check from 'bs58check'
 
 export async function verifyDogecoinMessage(
   address: string,
   message: string,
   signature: string,
 ) {
-  return verify(message, address, signature, '\x19Dogecoin Signed Message:\n')
+  return verify(
+    Buffer.from(message, 'utf8'),
+    address,
+    Buffer.from(signature, 'utf8'),
+    Buffer.from('\x19Dogecoin Signed Message:\n', 'utf8'),
+  )
 }
 
 async function sha256(buffer: ArrayBuffer) {
@@ -39,17 +44,7 @@ function decodeSignature(buffer: Buffer) {
   }
 }
 
-async function magicHash(
-  message: string | Buffer,
-  messagePrefix: string | Buffer,
-) {
-  messagePrefix = messagePrefix
-  if (!Buffer.isBuffer(messagePrefix)) {
-    messagePrefix = Buffer.from(messagePrefix, 'utf8')
-  }
-  if (!Buffer.isBuffer(message)) {
-    message = Buffer.from(message, 'utf8')
-  }
+async function magicHash(message: Buffer, messagePrefix: Buffer) {
   const messageVISize = varUintEncodingLength(message.length)
   const buffer = Buffer.allocUnsafe(
     messagePrefix.length + messageVISize + message.length,
@@ -61,21 +56,17 @@ async function magicHash(
 }
 
 async function verify(
-  message: string,
+  message: Buffer,
   address: string,
-  signature: string | Buffer,
-  messagePrefix: string,
+  signature: Buffer,
+  messagePrefix: Buffer,
 ) {
-  if (!Buffer.isBuffer(signature)) {
-    signature = Buffer.from(signature, 'base64')
-  }
-
   const parsed = decodeSignature(signature)
 
   const hash = await magicHash(message, messagePrefix)
   const publicKey = new Signature(
-    BigInt('0x' + parsed.signature.subarray(0, 32).toString('hex')),
-    BigInt('0x' + parsed.signature.subarray(32, 64).toString('hex')),
+    BigInt(`0x${parsed.signature.subarray(0, 32).toString('hex')}`),
+    BigInt(`0x${parsed.signature.subarray(32, 64).toString('hex')}`),
     parsed.recovery,
   )
     .recoverPublicKey(Buffer.from(hash))
@@ -95,15 +86,6 @@ function checkUInt53(n: number) {
 
 function varUintEncode(number: number, buffer: Buffer, offset: number) {
   checkUInt53(number)
-
-  if (!buffer) {
-    buffer = Buffer.allocUnsafe(varUintEncodingLength(number))
-  }
-  if (!Buffer.isBuffer(buffer))
-    throw new TypeError('buffer must be a Buffer instance')
-  if (!offset) {
-    offset = 0
-  }
 
   // 8 bit
   if (number < 0xfd) {

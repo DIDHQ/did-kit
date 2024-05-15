@@ -1,4 +1,4 @@
-import { Address, Hex, verifyMessage } from 'viem'
+import { type Address, type Hex, verifyMessage } from 'viem'
 
 export async function verifyEvmMessage(
   address: string,

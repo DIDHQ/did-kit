@@ -1,4 +1,4 @@
-import { createPublicClient, http, labelhash, namehash, parseAbi } from 'viem'
+import { http, createPublicClient, labelhash, namehash, parseAbi } from 'viem'
 import { mainnet as ethereum } from 'viem/chains'
 import { normalize } from 'viem/ens'
 import { normalizeAddress } from '../address.js'
@@ -82,7 +82,9 @@ export async function getEnsCreatedAt(did: string): Promise<Date | undefined> {
       data: { registration?: { registrationDate: string } }
     }
     return json.data.registration
-      ? new Date(parseInt(`${json.data.registration.registrationDate}000`))
+      ? new Date(
+          Number.parseInt(`${json.data.registration.registrationDate}000`),
+        )
       : undefined
   } catch (err) {
     console.error('getEnsCreatedAt', did, err)

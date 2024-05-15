@@ -1,5 +1,5 @@
-import { Hex, concat, keccak256, recoverAddress, toBytes } from 'viem'
 import bs58 from 'bs58'
+import { type Hex, concat, keccak256, recoverAddress, toBytes } from 'viem'
 
 /**
  * @see https://github.com/tronprotocol/tronweb/blob/master/src/utils/message.js
